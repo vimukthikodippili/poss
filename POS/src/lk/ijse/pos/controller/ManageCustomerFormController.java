@@ -16,7 +16,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.dao.CustomerDAOImpl;
 import lk.ijse.pos.db.DBConnection;
+import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.view.tblmodel.CustomerTM;
 
 
@@ -37,6 +39,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageCustomerFormController implements Initializable {
+    CustomerDAOImpl Customer=new CustomerDAOImpl();
 
     boolean addnew = true;
     @FXML
@@ -53,11 +56,19 @@ public class ManageCustomerFormController implements Initializable {
     private void loadAllCustomers() {
 
         try {
+            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            ArrayList<Customer> allCustomers = customerDAO.getAll();
+            ArrayList<CustomerTM> allCustomersForTable = new ArrayList<>();
 
-            Connection connection = DBConnection.getInstance().getConnection();
-            Statement stm = connection.createStatement();
-            ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
+            /*  get all customers*/
+
             ArrayList<CustomerTM> alCustomers = new ArrayList<>();
+
+
+//            Connection connection = DBConnection.getInstance().getConnection();
+//            Statement stm = connection.createStatement();
+//            ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
+//            ArrayList<CustomerTM> alCustomers = new ArrayList<>();
 
             while (rst.next()) {
 
@@ -129,10 +140,10 @@ public class ManageCustomerFormController implements Initializable {
             String customerID = tblCustomers.getSelectionModel().getSelectedItem().getId();
 
             try {
-                Connection connection = DBConnection.getInstance().getConnection();
-
-                PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
-                pstm.setObject(1, customerID);
+//                Connection connection = DBConnection.getInstance().getConnection();
+//
+//                PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
+//                pstm.setObject(1, customerID);
 
                 int affectedRows = pstm.executeUpdate();
 
@@ -170,14 +181,14 @@ public class ManageCustomerFormController implements Initializable {
         if (addnew) {
 
             try {
-                Connection connection = DBConnection.getInstance().getConnection();
-
-                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer VALUES (?,?,?,?)");
-
-                pstm.setObject(1, txtCustomerId.getText());
-                pstm.setObject(2, txtCustomerName.getText());
-                pstm.setObject(3, txtCustomerAddress.getText());
-                pstm.setObject(4, 0);
+//                Connection connection = DBConnection.getInstance().getConnection();
+//
+//                PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer VALUES (?,?,?,?)");
+//
+//                pstm.setObject(1, txtCustomerId.getText());
+//                pstm.setObject(2, txtCustomerName.getText());
+//                pstm.setObject(3, txtCustomerAddress.getText());
+//                pstm.setObject(4, 0);
 
                 int affectedRows = pstm.executeUpdate();
 
@@ -193,12 +204,12 @@ public class ManageCustomerFormController implements Initializable {
         } else {
             try {
                 //Update
-                Connection connection = DBConnection.getInstance().getConnection();
-
-                PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
-                pstm.setObject(1, txtCustomerName.getText());
-                pstm.setObject(2, txtCustomerAddress.getText());
-                pstm.setObject(3, txtCustomerId.getText());
+//                Connection connection = DBConnection.getInstance().getConnection();
+//
+//                PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET name=?, address=? WHERE id=?");
+//                pstm.setObject(1, txtCustomerName.getText());
+//                pstm.setObject(2, txtCustomerAddress.getText());
+//                pstm.setObject(3, txtCustomerId.getText());
 
                 int affectedRows = pstm.executeUpdate();
 
