@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.dao.ItemDAO;
 import lk.ijse.pos.dao.ItemDAOImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Item;
@@ -59,7 +60,7 @@ public class ManageItemFormController implements Initializable{
 
         try {
             /*Get All Items*/
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<Item> allItems = itemDAO.getAllItems();
 
             /*create a ItemTM type list*/
@@ -143,7 +144,7 @@ public class ManageItemFormController implements Initializable{
             try {
 
 
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = new Item(txtItemCode.getText(),txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
                 boolean b = itemDAO.addItem(item);
                 if (b){
@@ -160,7 +161,7 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = new Item(txtItemCode.getText(),txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
                 boolean b = itemDAO.updateItem(item);
                 if (b){
@@ -187,7 +188,7 @@ public class ManageItemFormController implements Initializable{
 
         try {
             /*Delete Item*/
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             boolean b = itemDAO.deleteItem(code);
             if (b){
                 loadAllItems();

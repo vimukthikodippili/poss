@@ -20,11 +20,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import lk.ijse.pos.dao.CustomerDAOImpl;
-import lk.ijse.pos.dao.ItemDAOImpl;
-import lk.ijse.pos.dao.OrderDAOImpl;
+import lk.ijse.pos.dao.*;
 //import lk.ijse.pos.dao.OrderDetailsDAO;
-import lk.ijse.pos.dao.OrderDetailsDAOImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.model.Item;
@@ -127,7 +124,7 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    CustomerDAOImpl dao = new CustomerDAOImpl();
+                    CustomerDAO dao = new CustomerDAOImpl();
                     Customer customer = dao.SearchCustomer(customerID);
 
                     if (customer != null) {
@@ -158,7 +155,7 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    ItemDAOImpl itemDAO = new ItemDAOImpl();
+                    ItemDAO itemDAO = new ItemDAOImpl();
                     Item item = itemDAO.searchItem(itemCode);
                     if (item != null) {
                         String description = item.getDescription();
@@ -231,7 +228,7 @@ public class OrderFormController implements Initializable {
     private void loadAllData() throws SQLException {
         try {
 
-            CustomerDAOImpl dao = new CustomerDAOImpl();
+            CustomerDAO dao = new CustomerDAOImpl();
 
             ArrayList<Customer> allCustomers = dao.getAll();
 
@@ -322,7 +319,7 @@ public class OrderFormController implements Initializable {
             connection.setAutoCommit(false);
 
             /*Add Order Record*/
-            OrderDAOImpl orderDAO = new OrderDAOImpl();
+            OrderDAO orderDAO = new OrderDAOImpl();
             Orders orders = new Orders(txtOrderID.getText(),parseDate(txtOrderDate.getEditor().getText()),cmbCustomerID.getSelectionModel().getSelectedItem());
             boolean b1 = orderDAO.addOrder(orders);
 
@@ -332,7 +329,7 @@ public class OrderFormController implements Initializable {
             }
 
             /*Add Order Details to the Table*/
-            OrderDetailsDAOImpl orderDetailsDAO = new OrderDetailsDAOImpl();
+            OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
             for (OrderDetailTM orderDetail : olOrderDetails) {
 
                 OrderDetails orderDetails = new OrderDetails(
@@ -349,7 +346,7 @@ public class OrderFormController implements Initializable {
                 }
                 int qtyOnHand = 0;
 
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = itemDAO.searchItem(orderDetail.getItemCode());
 
                 if (item!=null) {

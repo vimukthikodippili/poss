@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.dao.CustomerDAO;
 import lk.ijse.pos.dao.CustomerDAOImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
@@ -56,7 +57,8 @@ public class ManageCustomerFormController implements Initializable {
     private void loadAllCustomers() {
 
         try {
-            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+           // CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            CustomerDAO customerDAO=new CustomerDAOImpl();
             ArrayList<Customer> allCustomers = customerDAO.getAll();
             ArrayList<CustomerTM> allCustomersForTable = new ArrayList<>();
 
@@ -143,7 +145,7 @@ public class ManageCustomerFormController implements Initializable {
             String customerID = tblCustomers.getSelectionModel().getSelectedItem().getId();
 
             try {
-                CustomerDAOImpl customerDAO=new CustomerDAOImpl();
+                CustomerDAO customerDAO=new CustomerDAOImpl();
                 boolean b=customerDAO.deletaCustomer(customerID);
 //                Connection connection = DBConnection.getInstance().getConnection();
 //
@@ -186,7 +188,7 @@ public class ManageCustomerFormController implements Initializable {
         if (addnew) {
 
             try {
-                CustomerDAOImpl customerDAO =new CustomerDAOImpl();
+                CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
                 boolean b=customerDAO.addCustomer(customer);
 
@@ -212,7 +214,7 @@ public class ManageCustomerFormController implements Initializable {
 
         } else {
             try {
-                CustomerDAOImpl customerDAO =new CustomerDAOImpl();
+                CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
                 boolean b=customerDAO.updateCustomer(customer);
 
