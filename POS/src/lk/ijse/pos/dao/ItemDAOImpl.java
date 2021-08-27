@@ -80,5 +80,6 @@ public class ItemDAOImpl {
     }
 
     public boolean updateItemQnty(Item item) {
+        throw new UnsupportedOperationException("This feature is not supported yet");
     }
 }

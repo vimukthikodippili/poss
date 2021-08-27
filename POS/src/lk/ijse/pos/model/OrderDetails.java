@@ -32,7 +32,7 @@ public class OrderDetails {
         this.orderId = orderId;
     }
 
-    public String getItemCode() {
+    public Item getItemCode() {
         return itemCode;
     }
 
