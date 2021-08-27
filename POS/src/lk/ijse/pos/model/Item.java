@@ -19,7 +19,7 @@ public class Item {
     private BigDecimal unitPrice;
     private int qtyOnHand;
 
-    public Item() {
+    public Item(String text, String txtUnitPriceText) {
     }
 
     public Item(String code, String description,BigDecimal unitPrice, int qtyOnHand) {

@@ -20,7 +20,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import lk.ijse.pos.dao.CustomerDAOImpl;
+import lk.ijse.pos.dao.ItemDAOImpl;
 import lk.ijse.pos.db.DBConnection;
+import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.model.Item;
+import lk.ijse.pos.view.tblmodel.CustomerTM;
+import lk.ijse.pos.view.tblmodel.ItemTM;
 import lk.ijse.pos.view.tblmodel.OrderDetailTM;
 
 
@@ -30,6 +36,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -117,17 +124,27 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer WHERE id=?");
-                    pstm.setObject(1, customerID);
-                    ResultSet rst = pstm.executeQuery();
+//                    PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer WHERE id=?");
+//                    pstm.setObject(1, customerID);
+//                    ResultSet rst = pstm.executeQuery();
+                    CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+                    Customer customer=new Customer();
+                    ArrayList<Customer> allcustomer = customerDAO.getAll();
 
-                    if (rst.next()) {
-                        String customerName = rst.getString(2);
-                        txtCustomerName.setText(customerName);
+
+//                    if (customerDAO) {
+//                        String customerName = rst.getString(2);
+//                        txtCustomerName.setText(customerName);
+//                    }
+                    ArrayList<CustomerTM> alCustomers = new ArrayList<>();
+                    for (Customer i:allcustomer
+                    ) {
+                        alCustomers.add(new CustomerTM(i.getName(),i.getAddress(),i.getcID()));
                     }
-
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderFormController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -148,22 +165,33 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Item WHERE code = ?");
-                    pstm.setObject(1, itemCode);
+//                    PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Item WHERE code = ?");
+//                    pstm.setObject(1, itemCode);
+//
+//                    ResultSet rst = pstm.executeQuery();
+                    ItemDAOImpl itemDAO = new ItemDAOImpl();
+                    ArrayList<Item> allItems = itemDAO.getAllItems();
+                    ArrayList<ItemTM> allItemsForTable= new ArrayList<>();
 
-                    ResultSet rst = pstm.executeQuery();
-
-                    if (rst.next()) {
-                        String description = rst.getString(2);
-                        double unitPrice = rst.getDouble(3);
-                        int qtyOnHand = rst.getInt(4);
-
-                        txtDescription.setText(description);
-                        txtUnitPrice.setText(unitPrice + "");
-                        txtQtyOnHand.setText(qtyOnHand + "");
+                    for (Item i : allItems) {
+                        allItemsForTable.add(new ItemTM(i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand()));
                     }
+
+
+
+//                    if (rst.next()) {
+//                        String description = rst.getString(2);
+//                        double unitPrice = rst.getDouble(3);
+//                        int qtyOnHand = rst.getInt(4);
+
+//                        txtDescription.setText(description);
+//                        txtUnitPrice.setText(unitPrice + "");
+//                        txtQtyOnHand.setText(qtyOnHand + "");
+
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderFormController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -222,21 +250,34 @@ public class OrderFormController implements Initializable {
 
     private void loadAllData() throws SQLException {
 
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
-        cmbCustomerID.getItems().removeAll(cmbCustomerID.getItems());
-        while (rst.next()) {
-            String id = rst.getString(1);
-            cmbCustomerID.getItems().add(id);
-        }
-        rst = stm.executeQuery("SELECT * FROM Item");
-        cmbItemCode.getItems().removeAll(cmbItemCode.getItems());
-        while (rst.next()) {
-            String itemCode = rst.getString(1);
-            cmbItemCode.getItems().add(itemCode);
+//        Statement stm = connection.createStatement();
+//        ResultSet rst = stm.executeQuery("SELECT * FROM Customer");
+//        cmbCustomerID.getItems().removeAll(cmbCustomerID.getItems());
+//        while (rst.next()) {
+//            String id = rst.getString(1);
+//            cmbCustomerID.getItems().add(id);
+        CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+        try {
+            ArrayList<Customer> all = customerDAO.getAll();
+            ArrayList<CustomerTM> alCustomers = new ArrayList<>();
+            for (Customer i:all
+            ) {
+                alCustomers.add(new CustomerTM(i.getName(),i.getAddress(),i.getcID()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
+//        rst = stm.executeQuery("SELECT * FROM Item");
+//        cmbItemCode.getItems().removeAll(cmbItemCode.getItems());
+//        while (rst.next()) {
+//            String itemCode = rst.getString(1);
+//            cmbItemCode.getItems().add(itemCode);
+//        }
+//
+ //}
+
 
     @FXML
     private void navigateToMain(MouseEvent event) throws IOException {
@@ -334,13 +375,16 @@ public class OrderFormController implements Initializable {
                 if (rst.next()) {
                     qtyOnHand = rst.getInt(4);
                 }
-                PreparedStatement pstm2 = connection.prepareStatement("UPDATE Item SET qtyOnHand=? WHERE code=?");
-                pstm2.setObject(1, qtyOnHand - orderDetail.getQty());
-                pstm2.setObject(2, orderDetail.getItemCode());
+//                PreparedStatement pstm2 = connection.prepareStatement("UPDATE Item SET qtyOnHand=? WHERE code=?");
+//                pstm2.setObject(1, qtyOnHand - orderDetail.getQty());
+//                pstm2.setObject(2, orderDetail.getItemCode());
+//
+//                affectedRows = pstm2.executeUpdate();
+                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                Item item=new Item(txtDescription.getText(),txtUnitPrice.getText());
+                boolean b=itemDAO.updateItemQnty(item);
 
-                affectedRows = pstm2.executeUpdate();
-
-                if (affectedRows == 0) {
+                if (b) {
                     connection.rollback();
                     return;
                 }

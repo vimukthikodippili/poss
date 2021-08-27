@@ -39,6 +39,15 @@ public class ItemDAOImpl {
         pstm.setObject(4, item.getCode());
         return (pstm.executeUpdate() > 0);
     }
+    public boolean updateItemQnty(Item  D,int U) throws Exception {
+        Connection connection = DBConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET qtyOnHand=? WHERE code=?");
+        pstm.setObject(1, D);
+        pstm.setObject(2, U);
+
+        return (pstm.executeUpdate() > 0);
+
+    }
 
 
     public Item searchItem(String code) throws Exception {
@@ -68,5 +77,8 @@ public class ItemDAOImpl {
             allItems.add(item);
         }
         return allItems;
+    }
+
+    public boolean updateItemQnty(Item item) {
     }
 }
