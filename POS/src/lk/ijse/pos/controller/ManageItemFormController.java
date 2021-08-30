@@ -40,6 +40,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageItemFormController implements Initializable{
+    ItemDAO itemDAO = new ItemDAOImpl();
 
     @FXML
     private JFXTextField txtItemCode;
@@ -60,7 +61,7 @@ public class ManageItemFormController implements Initializable{
 
         try {
             /*Get All Items*/
-            ItemDAO itemDAO = new ItemDAOImpl();
+
             ArrayList<Item> allItems = itemDAO.getAllItems();
 
             /*create a ItemTM type list*/
@@ -144,7 +145,7 @@ public class ManageItemFormController implements Initializable{
             try {
 
 
-                ItemDAO itemDAO = new ItemDAOImpl();
+                //ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = new Item(txtItemCode.getText(),txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
                 boolean b = itemDAO.addItem(item);
                 if (b){
@@ -161,7 +162,7 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-                ItemDAO itemDAO = new ItemDAOImpl();
+               // ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = new Item(txtItemCode.getText(),txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
                 boolean b = itemDAO.updateItem(item);
                 if (b){
@@ -188,7 +189,7 @@ public class ManageItemFormController implements Initializable{
 
         try {
             /*Delete Item*/
-            ItemDAO itemDAO = new ItemDAOImpl();
+           // ItemDAO itemDAO = new ItemDAOImpl();
             boolean b = itemDAO.deleteItem(code);
             if (b){
                 loadAllItems();

@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageCustomerFormController implements Initializable {
-    CustomerDAOImpl Customer=new CustomerDAOImpl();
+    CustomerDAO customerDAO=new CustomerDAOImpl();
 
     boolean addnew = true;
     @FXML
@@ -58,7 +58,7 @@ public class ManageCustomerFormController implements Initializable {
 
         try {
            // CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            CustomerDAO customerDAO=new CustomerDAOImpl();
+
             ArrayList<Customer> allCustomers = customerDAO.getAll();
             ArrayList<CustomerTM> allCustomersForTable = new ArrayList<>();
 
@@ -188,7 +188,7 @@ public class ManageCustomerFormController implements Initializable {
         if (addnew) {
 
             try {
-                CustomerDAO customerDAO=new CustomerDAOImpl();
+               // CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
                 boolean b=customerDAO.addCustomer(customer);
 
@@ -214,7 +214,7 @@ public class ManageCustomerFormController implements Initializable {
 
         } else {
             try {
-                CustomerDAO customerDAO=new CustomerDAOImpl();
+               // CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
                 boolean b=customerDAO.updateCustomer(customer);
 

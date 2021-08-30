@@ -49,6 +49,9 @@ import java.util.logging.Logger;
  **/
 
 public class OrderFormController implements Initializable {
+    CustomerDAO dao = new CustomerDAOImpl();
+    ItemDAO itemDAO = new ItemDAOImpl();
+    OrderDAO orderDAO = new OrderDAOImpl();
 
     @FXML
     private JFXComboBox<String> cmbCustomerID;
@@ -124,7 +127,7 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    CustomerDAO dao = new CustomerDAOImpl();
+
                     Customer customer = dao.SearchCustomer(customerID);
 
                     if (customer != null) {
@@ -155,7 +158,7 @@ public class OrderFormController implements Initializable {
                 }
 
                 try {
-                    ItemDAO itemDAO = new ItemDAOImpl();
+                   // ItemDAO itemDAO = new ItemDAOImpl();
                     Item item = itemDAO.searchItem(itemCode);
                     if (item != null) {
                         String description = item.getDescription();
@@ -228,7 +231,7 @@ public class OrderFormController implements Initializable {
     private void loadAllData() throws SQLException {
         try {
 
-            CustomerDAO dao = new CustomerDAOImpl();
+           // CustomerDAO dao = new CustomerDAOImpl();
 
             ArrayList<Customer> allCustomers = dao.getAll();
 
@@ -239,7 +242,7 @@ public class OrderFormController implements Initializable {
                 cmbCustomerID.getItems().add(id);
             }
 
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            //ItemDAOImpl itemDAO = new ItemDAOImpl();
             ArrayList<Item> allItems = itemDAO.getAllItems();
 
             cmbItemCode.getItems().removeAll(cmbItemCode.getItems());
@@ -319,7 +322,7 @@ public class OrderFormController implements Initializable {
             connection.setAutoCommit(false);
 
             /*Add Order Record*/
-            OrderDAO orderDAO = new OrderDAOImpl();
+           // OrderDAO orderDAO = new OrderDAOImpl();
             Orders orders = new Orders(txtOrderID.getText(),parseDate(txtOrderDate.getEditor().getText()),cmbCustomerID.getSelectionModel().getSelectedItem());
             boolean b1 = orderDAO.addOrder(orders);
 
