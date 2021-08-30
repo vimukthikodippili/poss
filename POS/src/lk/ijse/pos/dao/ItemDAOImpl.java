@@ -13,40 +13,44 @@ import java.util.ArrayList;
 public class ItemDAOImpl  implements ItemDAO{
     @Override
     public boolean addItem(Item item) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
-        pstm.setObject(1, item.getCode());
-        pstm.setObject(2, item.getDescription());
-        pstm.setObject(3, item.getUnitPrice());
-        pstm.setObject(4, item.getQtyOnHand());
-        return (pstm.executeUpdate() > 0);
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
+//        pstm.setObject(1, item.getCode());
+//        pstm.setObject(2, item.getDescription());
+//        pstm.setObject(3, item.getUnitPrice());
+//        pstm.setObject(4, item.getQtyOnHand());
+        return CrudUtil.executeUpdate("INSERT INTO Item VALUES (?,?,?,?)",item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand());
     }
 
     @Override
     public boolean deleteItem(String code) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
-        pstm.setObject(1, code);
-        return (pstm.executeUpdate() > 0);
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
+//        pstm.setObject(1, code);
+//        return (pstm.executeUpdate() > 0);
+    return     CrudUtil.executeUpdate("DELETE FROM Item WHERE code=?",code);
     }
+
 
     @Override
     public boolean updateItem(Item item) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-        pstm.setObject(1, item.getDescription());
-        pstm.setObject(2, item.getUnitPrice());
-        pstm.setObject(3, item.getQtyOnHand());
-        pstm.setObject(4, item.getCode());
-        return (pstm.executeUpdate() > 0);
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
+//        pstm.setObject(1, item.getDescription());
+//        pstm.setObject(2, item.getUnitPrice());
+//        pstm.setObject(3, item.getQtyOnHand());
+//        pstm.setObject(4, item.getCode());
+//        return (pstm.executeUpdate() > 0);
+        return CrudUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",item.getDescription(),item.getUnitPrice(),item.getQtyOnHand(),item.getCode());
     }
 
     @Override
     public Item searchItem(String code) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Item where code=?");
-        stm.setObject(1, code);
-        ResultSet rst = stm.executeQuery();
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        PreparedStatement stm = connection.prepareStatement("SELECT * FROM Item where code=?");
+//        stm.setObject(1, code);
+//        ResultSet rst = stm.executeQuery();
+        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item where code=?", code);
         if (rst.next()) {
             return new Item(rst.getString(1),
                     rst.getString(2),
@@ -58,9 +62,10 @@ public class ItemDAOImpl  implements ItemDAO{
 
     @Override
     public ArrayList<Item> getAllItems() throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Item");
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        Statement stm = connection.createStatement();
+//        ResultSet rst = stm.executeQuery("SELECT * FROM Item");
+        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item");
         ArrayList<Item> allItems = new ArrayList<>();
         while (rst.next()) {
             Item item = new Item(rst.getString(1),
