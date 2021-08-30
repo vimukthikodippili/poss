@@ -16,18 +16,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
-import lk.ijse.pos.dao.CustomerDAO;
-import lk.ijse.pos.dao.CustomerDAOImpl;
-import lk.ijse.pos.db.DBConnection;
+import lk.ijse.pos.dao.custom.CustomerDAO;
+import lk.ijse.pos.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.view.tblmodel.CustomerTM;
 
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -40,7 +35,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageCustomerFormController implements Initializable {
-    CustomerDAO customerDAO=new CustomerDAOImpl();
+    private final CustomerDAO customerDAO = new CustomerDAOImpl();
 
     boolean addnew = true;
     @FXML
@@ -59,7 +54,7 @@ public class ManageCustomerFormController implements Initializable {
         try {
            // CustomerDAOImpl customerDAO = new CustomerDAOImpl();
 
-            ArrayList<Customer> allCustomers = customerDAO.getAll();
+            ArrayList<Customer> allCustomers = customerDAO.getALL();
             ArrayList<CustomerTM> allCustomersForTable = new ArrayList<>();
 
             /*  get all customers*/
@@ -146,7 +141,7 @@ public class ManageCustomerFormController implements Initializable {
 
             try {
                 CustomerDAO customerDAO=new CustomerDAOImpl();
-                boolean b=customerDAO.deletaCustomer(customerID);
+                boolean b=customerDAO.delete(customerID);
 //                Connection connection = DBConnection.getInstance().getConnection();
 //
 //                PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
@@ -190,7 +185,7 @@ public class ManageCustomerFormController implements Initializable {
             try {
                // CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
-                boolean b=customerDAO.addCustomer(customer);
+                boolean b=customerDAO.add(customer);
 
 //                Connection connection = DBConnection.getInstance().getConnection();
 //
@@ -216,7 +211,7 @@ public class ManageCustomerFormController implements Initializable {
             try {
                // CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
-                boolean b=customerDAO.updateCustomer(customer);
+                boolean b=customerDAO.update(customer);
 
                 //Update
 //                Connection connection = DBConnection.getInstance().getConnection();
