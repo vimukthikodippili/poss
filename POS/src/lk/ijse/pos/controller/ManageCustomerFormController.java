@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.bo.CustomerBOImpl;
 import lk.ijse.pos.dao.custom.CustomerDAO;
 import lk.ijse.pos.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.pos.model.Customer;
@@ -35,8 +36,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageCustomerFormController implements Initializable {
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
-
+CustomerBOImpl customerBO=new CustomerBOImpl();
     boolean addnew = true;
     @FXML
     private AnchorPane root;
@@ -54,7 +54,7 @@ public class ManageCustomerFormController implements Initializable {
         try {
            // CustomerDAOImpl customerDAO = new CustomerDAOImpl();
 
-            ArrayList<Customer> allCustomers = customerDAO.getALL();
+            ArrayList<Customer> allCustomers = customerBO.getAllCustomer();
             ArrayList<CustomerTM> allCustomersForTable = new ArrayList<>();
 
             /*  get all customers*/
@@ -185,7 +185,7 @@ public class ManageCustomerFormController implements Initializable {
             try {
                // CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
-                boolean b=customerDAO.add(customer);
+                boolean b=customerBO.addCustomer(customer);
 
 //                Connection connection = DBConnection.getInstance().getConnection();
 //
@@ -211,7 +211,7 @@ public class ManageCustomerFormController implements Initializable {
             try {
                // CustomerDAO customerDAO=new CustomerDAOImpl();
                 lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
-                boolean b=customerDAO.update(customer);
+                boolean b=customerBO.UpdateCustomer(customer);
 
                 //Update
 //                Connection connection = DBConnection.getInstance().getConnection();

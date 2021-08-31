@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
+import lk.ijse.pos.bo.ItemBOImpl;
 import lk.ijse.pos.dao.custom.ItemDAO;
 import lk.ijse.pos.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.pos.model.Item;
@@ -35,7 +36,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageItemFormController implements Initializable{
-  private final   ItemDAO itemDAO = new ItemDAOImpl();
+ItemBOImpl itemBO=new ItemBOImpl();
 
     @FXML
     private JFXTextField txtItemCode;
@@ -57,7 +58,7 @@ public class ManageItemFormController implements Initializable{
         try {
             /*Get All Items*/
 
-            ArrayList<Item> allItems = itemDAO.getALL();
+            ArrayList<Item> allItems = itemBO.getAllItem();
 
             /*create a ItemTM type list*/
             ArrayList<ItemTM> allItemsForTable= new ArrayList<>();
@@ -142,7 +143,7 @@ public class ManageItemFormController implements Initializable{
 
                 //ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = new Item(txtItemCode.getText(),txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
-                boolean b = itemDAO.add(item);
+                boolean b = itemBO.addItem(item);
                 if (b){
                     loadAllItems();
                 }else{
@@ -159,7 +160,7 @@ public class ManageItemFormController implements Initializable{
 
                // ItemDAO itemDAO = new ItemDAOImpl();
                 Item item = new Item(txtItemCode.getText(),txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()));
-                boolean b = itemDAO.update(item);
+                boolean b = itemBO.UpdateItem(item);
                 if (b){
                     loadAllItems();
                 }else{
@@ -185,7 +186,7 @@ public class ManageItemFormController implements Initializable{
         try {
             /*Delete Item*/
            // ItemDAO itemDAO = new ItemDAOImpl();
-            boolean b = itemDAO.delete(code);
+            boolean b = itemBO.deleteItem(code);
             if (b){
                 loadAllItems();
             }else{
