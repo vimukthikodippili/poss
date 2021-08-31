@@ -102,7 +102,7 @@ public class ItemDAOImpl  implements ItemDAO {
     }
 
     @Override
-    public ArrayList<Item> getALL() throws Exception {
+    public String getALL() throws Exception {
         ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item");
         ArrayList<Item> allItems = new ArrayList<>();
         while (rst.next()) {

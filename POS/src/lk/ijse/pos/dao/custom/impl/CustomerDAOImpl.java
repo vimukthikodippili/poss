@@ -2,12 +2,9 @@ package lk.ijse.pos.dao.custom.impl;
 
 import lk.ijse.pos.dao.CrudUtil;
 import lk.ijse.pos.dao.custom.CustomerDAO;
-import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerDAOImpl implements CustomerDAO {
@@ -36,7 +33,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public ArrayList<Customer> getALL() throws Exception {
+    public String getALL() throws Exception {
         ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Customer");
         ArrayList<Customer> alCustomers = new ArrayList<>();
         while (rst.next()) {
