@@ -16,10 +16,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
-import lk.ijse.pos.bo.CustomerBOImpl;
+import lk.ijse.pos.bo.custom.CustomerBO;
+import lk.ijse.pos.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.pos.dao.DAOFactory;
 import lk.ijse.pos.dao.custom.CustomerDAO;
 import lk.ijse.pos.dao.custom.impl.CustomerDAOImpl;
-import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.entity.Customer;
 import lk.ijse.pos.view.tblmodel.CustomerTM;
 
 
@@ -36,7 +38,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageCustomerFormController implements Initializable {
-CustomerBOImpl customerBO=new CustomerBOImpl();
+private final CustomerBO customerBO= (CustomerBO) DAOFactory.getDaoFactory().GetDAO(DAOFactory.DAOType.CUSTOMER);
     boolean addnew = true;
     @FXML
     private AnchorPane root;
@@ -140,8 +142,8 @@ CustomerBOImpl customerBO=new CustomerBOImpl();
             String customerID = tblCustomers.getSelectionModel().getSelectedItem().getId();
 
             try {
-                CustomerDAO customerDAO=new CustomerDAOImpl();
-                boolean b=customerDAO.delete(customerID);
+                boolean b = customerBO.deleteCustomer(customerID);
+                boolean b1=customerBO.deleteCustomer(customerID);
 //                Connection connection = DBConnection.getInstance().getConnection();
 //
 //                PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE id=?");
@@ -184,7 +186,7 @@ CustomerBOImpl customerBO=new CustomerBOImpl();
 
             try {
                // CustomerDAO customerDAO=new CustomerDAOImpl();
-                lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
+                lk.ijse.pos.entity.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
                 boolean b=customerBO.addCustomer(customer);
 
 //                Connection connection = DBConnection.getInstance().getConnection();
@@ -210,7 +212,7 @@ CustomerBOImpl customerBO=new CustomerBOImpl();
         } else {
             try {
                // CustomerDAO customerDAO=new CustomerDAOImpl();
-                lk.ijse.pos.model.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
+                lk.ijse.pos.entity.Customer customer=new Customer(txtCustomerId.getText(),txtCustomerName.getText(),txtCustomerAddress.getText());
                 boolean b=customerBO.UpdateCustomer(customer);
 
                 //Update

@@ -1,11 +1,15 @@
-package lk.ijse.pos.bo;
+package lk.ijse.pos.bo.custom.impl;
 
+import lk.ijse.pos.bo.custom.ItemBO;
+import lk.ijse.pos.dao.DAOFactory;
 import lk.ijse.pos.dao.custom.ItemDAO;
-import lk.ijse.pos.dao.custom.impl.ItemDAOImpl;
-import lk.ijse.pos.model.Item;
+import lk.ijse.pos.dto.ItenDTO;
+import lk.ijse.pos.entity.Item;
+
+import java.util.ArrayList;
 
 public class ItemBOImpl implements ItemBO {
-    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().GetDAO(DAOFactory.DAOType.ITEM);
     public boolean addItem(Item item) throws Exception {
         return itemDAO.add(item);
 
@@ -19,7 +23,7 @@ public class ItemBOImpl implements ItemBO {
     public Item searchItem(String id) throws Exception {
         return itemDAO.search(id);
     }
-    public String getAllItem() throws Exception {
+    public ArrayList<ItenDTO> getAllItem() throws Exception {
         return itemDAO.getALL();
     }
 

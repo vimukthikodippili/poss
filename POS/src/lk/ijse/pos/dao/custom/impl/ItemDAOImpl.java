@@ -2,11 +2,60 @@ package lk.ijse.pos.dao.custom.impl;
 
 import lk.ijse.pos.dao.CrudUtil;
 import lk.ijse.pos.dao.custom.ItemDAO;
-import lk.ijse.pos.model.Item;
+import lk.ijse.pos.entity.Customer;
+import lk.ijse.pos.entity.Item;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 public class ItemDAOImpl  implements ItemDAO {
+    @Override
+    public boolean updateItemQtyOnHand(String code, int qtyOnHand) throws Exception {
+        return CrudUtil.executeUpdate("UPDATE Item SET qtyOnHand=? WHERE code=?", qtyOnHand, code);
+    }
+
+    @Override
+    public boolean add(Item item) throws Exception {
+        return CrudUtil.executeUpdate(item.getCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice());
+    }
+
+    @Override
+    public boolean delete(String id) throws Exception {
+        return CrudUtil.executeUpdate("DELETE FROM Item WHERE code=?", id);
+    }
+
+    @Override
+    public boolean update(Item item) throws Exception {
+        return CrudUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", item.getDescription(), item.getUnitPrice(), item.getQtyOnHand(), item.getCode());
+
+    }
+
+    @Override
+    public Item search(String id) throws Exception {
+        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item where code=?", id);
+        if (rst.next()) {
+            return new Item(rst.getString(1),
+                    rst.getString(2),
+                    rst.getBigDecimal(3),
+                    rst.getInt(4));
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Customer> getALL() throws Exception {
+        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item");
+      ArrayList<Item> allItems = new ArrayList<>();
+      while (rst.next()) {
+        Item item = new Item(rst.getString(1),
+                rst.getString(2),
+                   rst.getBigDecimal(3),
+                    rst.getInt(4));
+            allItems.add(item);
+        }
+       //
+        // return allItems;
+        return null;
+    }
 //    @Override
 //    public boolean addItem(Item item) throws Exception {
 ////        Connection connection = DBConnection.getInstance().getConnection();
@@ -73,52 +122,52 @@ public class ItemDAOImpl  implements ItemDAO {
 //        return allItems;
 //    }
 
-    @Override
-    public boolean add(Item item) throws Exception {
-        return CrudUtil.executeUpdate("INSERT INTO Item VALUES (?,?,?,?)", item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand());
-
-    }
-
-    @Override
-    public boolean delete(String id) throws Exception {
-        return CrudUtil.executeUpdate("DELETE FROM Item WHERE code=?", id);
-    }
-
-    @Override
-    public boolean update(Item item) throws Exception {
-        return CrudUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", item.getDescription(), item.getUnitPrice(), item.getQtyOnHand(), item.getCode());
-    }
-
-    @Override
-    public Item search(String id) throws Exception {
-        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item where code=?", id);
-        if (rst.next()) {
-            return new Item(rst.getString(1),
-                    rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getInt(4));
-        }
-        return null;
-    }
-
-    @Override
-    public String getALL() throws Exception {
-        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item");
-        ArrayList<Item> allItems = new ArrayList<>();
-        while (rst.next()) {
-            Item item = new Item(rst.getString(1),
-                    rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getInt(4));
-            allItems.add(item);
-        }
-        return allItems;
-    }
-
-    @Override
-    public boolean updateItemQtyOnHand(String code, int qtyOnHand) throws Exception {
-        return CrudUtil.executeUpdate("UPDATE Item SET qtyOnHand=? WHERE code=?", qtyOnHand, code);
-    }
+//    @Override
+//    public boolean add(Item item) throws Exception {
+//        return CrudUtil.executeUpdate("INSERT INTO Item VALUES (?,?,?,?)", item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand());
+//
+//    }
+//
+//    @Override
+//    public boolean delete(String id) throws Exception {
+//        return CrudUtil.executeUpdate("DELETE FROM Item WHERE code=?", id);
+//    }
+//
+//    @Override
+//    public boolean update(Item item) throws Exception {
+//        return CrudUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", item.getDescription(), item.getUnitPrice(), item.getQtyOnHand(), item.getCode());
+//    }
+//
+//    @Override
+//    public Item search(String id) throws Exception {
+//        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item where code=?", id);
+//        if (rst.next()) {
+//            return new Item(rst.getString(1),
+//                    rst.getString(2),
+//                    rst.getBigDecimal(3),
+//                    rst.getInt(4));
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public ArrayList<Customer> getALL() throws Exception {
+//        ResultSet rst = CrudUtil.ExecuteQuery("SELECT * FROM Item");
+//        ArrayList<Item> allItems = new ArrayList<>();
+//        while (rst.next()) {
+//            Item item = new Item(rst.getString(1),
+//                    rst.getString(2),
+//                    rst.getBigDecimal(3),
+//                    rst.getInt(4));
+//            allItems.add(item);
+//        }
+//        return allItems;
+//    }
+//
+//    @Override
+//    public boolean updateItemQtyOnHand(String code, int qtyOnHand) throws Exception {
+//        return CrudUtil.executeUpdate("UPDATE Item SET qtyOnHand=? WHERE code=?", qtyOnHand, code);
+//    }
 
     //public boolean addItem(Item item) throws Exception {
 //        Connection connection = DBConnection.getInstance().getConnection();

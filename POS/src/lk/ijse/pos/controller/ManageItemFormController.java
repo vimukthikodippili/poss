@@ -16,10 +16,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
-import lk.ijse.pos.bo.ItemBOImpl;
-import lk.ijse.pos.dao.custom.ItemDAO;
-import lk.ijse.pos.dao.custom.impl.ItemDAOImpl;
-import lk.ijse.pos.model.Item;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.impl.ItemBOImpl;
+import lk.ijse.pos.dao.DAOFactory;
+import lk.ijse.pos.dto.ItenDTO;
+import lk.ijse.pos.entity.Customer;
+import lk.ijse.pos.entity.Item;
 import lk.ijse.pos.view.tblmodel.ItemTM;
 
 
@@ -36,7 +38,7 @@ import java.util.logging.Logger;
  **/
 
 public class ManageItemFormController implements Initializable{
-ItemBOImpl itemBO=new ItemBOImpl();
+ItemBOImpl itemBO= (ItemBOImpl) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
 
     @FXML
     private JFXTextField txtItemCode;
@@ -58,12 +60,12 @@ ItemBOImpl itemBO=new ItemBOImpl();
         try {
             /*Get All Items*/
 
-            ArrayList<Item> allItems = itemBO.getAllItem();
+            ArrayList<ItenDTO> allItems = itemBO.getAllItem();
 
             /*create a ItemTM type list*/
             ArrayList<ItemTM> allItemsForTable= new ArrayList<>();
 
-            for (Item i : allItems) {
+            for (ItenDTO i : allItems) {
                 allItemsForTable.add(new ItemTM(i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand()));
             }
 

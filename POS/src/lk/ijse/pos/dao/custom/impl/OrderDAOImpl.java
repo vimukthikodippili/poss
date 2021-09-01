@@ -2,7 +2,10 @@ package lk.ijse.pos.dao.custom.impl;
 
 import lk.ijse.pos.dao.CrudUtil;
 import lk.ijse.pos.dao.custom.OrderDAO;
-import lk.ijse.pos.model.Orders;
+import lk.ijse.pos.entity.Customer;
+import lk.ijse.pos.entity.Orders;
+
+import java.util.ArrayList;
 
 public class OrderDAOImpl implements OrderDAO {
 //    @Override
@@ -59,7 +62,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public String getALL() throws Exception {
+    public ArrayList<Customer> getALL() throws Exception {
         return null;
     }
 //    public boolean addOrder(Orders orders) throws Exception {

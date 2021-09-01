@@ -1,23 +1,19 @@
-package lk.ijse.pos.model;
+package lk.ijse.pos.dto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 
-
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
-
-public class OrderDetails {
+public class OrderdetailsDTO {
     private String orderId;
     private String itemCode;
     private int qty;
     private BigDecimal unitPrice;
 
-    public OrderDetails() {
+    public OrderdetailsDTO(String text, Date date, String selectedItem) {
     }
 
-    public OrderDetails(String orderId, String itemCode, int qty, BigDecimal unitPrice) {
+    public OrderdetailsDTO(String orderId, String itemCode, int qty, BigDecimal unitPrice) {
         this.orderId = orderId;
         this.itemCode = itemCode;
         this.qty = qty;
@@ -36,7 +32,7 @@ public class OrderDetails {
         return itemCode;
     }
 
-    public void setItemCode(String itemCode) {
+    public void setItemCode(ArrayList<OrderdetailsDTO> itemCode) {
         this.itemCode = itemCode;
     }
 
@@ -54,16 +50,5 @@ public class OrderDetails {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("OrderDetails{");
-        sb.append("orderId='").append(orderId).append('\'');
-        sb.append(", itemCode='").append(itemCode).append('\'');
-        sb.append(", qty=").append(qty);
-        sb.append(", unitPrice=").append(unitPrice);
-        sb.append('}');
-        return sb.toString();
     }
 }

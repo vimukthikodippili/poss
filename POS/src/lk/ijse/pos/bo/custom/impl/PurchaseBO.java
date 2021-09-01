@@ -1,7 +1,7 @@
-package lk.ijse.pos.bo;
+package lk.ijse.pos.bo.custom.impl;
 
-import lk.ijse.pos.model.OrderDetails;
-import lk.ijse.pos.model.Orders;
+import lk.ijse.pos.entity.OrderDetails;
+import lk.ijse.pos.entity.Orders;
 
 import java.util.ArrayList;
 

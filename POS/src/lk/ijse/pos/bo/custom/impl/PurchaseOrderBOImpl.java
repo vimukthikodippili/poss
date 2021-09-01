@@ -1,18 +1,14 @@
-package lk.ijse.pos.bo;
+package lk.ijse.pos.bo.custom.impl;
 
 import lk.ijse.pos.controller.OrderFormController;
-import lk.ijse.pos.dao.custom.CustomerDAO;
+import lk.ijse.pos.dao.DAOFactory;
 import lk.ijse.pos.dao.custom.ItemDAO;
 import lk.ijse.pos.dao.custom.OrderDAO;
 import lk.ijse.pos.dao.custom.OrderDetailDAO;
-import lk.ijse.pos.dao.custom.impl.CustomerDAOImpl;
-import lk.ijse.pos.dao.custom.impl.ItemDAOImpl;
-import lk.ijse.pos.dao.custom.impl.OrderDAOImpl;
-import lk.ijse.pos.dao.custom.impl.OrderDetailsDAOImpl;
 import lk.ijse.pos.db.DBConnection;
-import lk.ijse.pos.model.Item;
-import lk.ijse.pos.model.OrderDetails;
-import lk.ijse.pos.model.Orders;
+import lk.ijse.pos.entity.Item;
+import lk.ijse.pos.entity.OrderDetails;
+import lk.ijse.pos.entity.Orders;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,10 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PurchaseOrderBOImpl implements PurchaseBO.PurchaseOrderBO {
-    CustomerDAO dao = new CustomerDAOImpl();
-    ItemDAO itemDAO = new ItemDAOImpl();
-    OrderDAO orderDAO = new OrderDAOImpl();
-    OrderDetailDAO orderDetailDAO=new OrderDetailsDAOImpl();
+
+    private final ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().GetDAO(DAOFactory.DAOType.ITEM);
+    private final OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().GetDAO(DAOFactory.DAOType.ORDER);
+    private final OrderDetailDAO orderDetailsDAO = (OrderDetailDAO) DAOFactory.getDaoFactory().GetDAO(DAOFactory.DAOType.ORDERDETAILS);
+
     @Override
     public boolean purchaseOrder(Orders orders, ArrayList<OrderDetails> orderDetails) throws Exception {
         Connection connection = null;
@@ -38,7 +35,7 @@ public class PurchaseOrderBOImpl implements PurchaseBO.PurchaseOrderBO {
 
             }
             for (OrderDetails orderdetails : orderDetails) {
-                boolean b2 = orderDetailDAO.add(orderdetails);
+                boolean b2 = orderDetails.add(orderdetails);
                 if (!b2) {
                     connection.rollback();
                     return false;

@@ -1,11 +1,14 @@
-package lk.ijse.pos.bo;
+package lk.ijse.pos.bo.custom.impl;
 
+import lk.ijse.pos.bo.custom.CustomerBO;
+import lk.ijse.pos.dao.DAOFactory;
 import lk.ijse.pos.dao.custom.CustomerDAO;
-import lk.ijse.pos.dao.custom.impl.CustomerDAOImpl;
-import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.entity.Customer;
+
+import java.util.ArrayList;
 
 public class CustomerBOImpl implements CustomerBO {
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().GetDAO(DAOFactory.DAOType.CUSTOMER);
     @Override
 public boolean addCustomer(Customer customer) throws Exception {
    return customerDAO.add(customer);
@@ -24,7 +27,7 @@ public Customer searchCustomer(String id) throws Exception {
 return customerDAO.search(id);
 }
     @Override
-public String getAllCustomer() throws Exception {
+public ArrayList<Customer> getAllCustomer() throws Exception {
     return customerDAO.getALL();
 }
 
